@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SuperSearch</string>
+    <string name="go_label">Go!</string>
+    <string name="modify_title">Manage Searches</string>
+    <string name="search_hint">Search Text</string>
+    <string name="name_hint">Search Name</string>
+    <string name="location_hint">Search URL</string>
+    <string name="term_hint">Term</string>
+    <string name="add_search_label">Add New Search</string>
+    <string name="manage_label">Manage Searches</string>
+</resources>
