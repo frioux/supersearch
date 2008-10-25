@@ -28,7 +28,6 @@ public class SearchesData extends SQLiteOpenHelper {
 		    + URL  + " VARCHAR(255) NOT NULL, "
 		    + TERM + " VARCHAR(25) DEFAULT 'Search');"
 		);
-		prepopulate();
 	}
 	
 	@Override
@@ -52,15 +51,6 @@ public class SearchesData extends SQLiteOpenHelper {
 		db.insertOrThrow(TABLE_NAME, null, values);
 	}
 	
-	private static String[] FROM = { _ID, NAME, URL, TERM};
-	private static String ORDER_BY = NAME + " ASC" ;
-	public Cursor getSearches() {
-	   // Perform a managed query. The Activity will handle closing
-	   // and re-querying the cursor when needed.
-	   SQLiteDatabase db = this	.getReadableDatabase();
-	   Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
-	         null, ORDER_BY);
-	   return cursor;
-	}
+	
 
 }
