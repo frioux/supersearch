@@ -1,6 +1,5 @@
 package org.lvlv.supersearch;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import static android.provider.BaseColumns._ID;
 import static org.lvlv.supersearch.Constants.TABLE_NAME;
