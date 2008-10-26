@@ -39,9 +39,9 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 
 	public void addSearch() {
 		searches.addSearch(
-				name_text.toString(),
-				url_text.toString(),
-				term_text.toString()
+				name_text.getText().toString(),
+				url_text.getText().toString(),
+				term_text.getText().toString()
 				);
 	
 	}
