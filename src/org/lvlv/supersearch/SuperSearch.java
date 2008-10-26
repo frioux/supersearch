@@ -45,8 +45,6 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		manageButton.setOnClickListener(this);
 		location.setOnKeyListener(this);
 		inputText.setOnKeyListener(this);
-		
-		setupSearches();
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
@@ -58,9 +56,13 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 
 	protected void onResume() {
 		super.onResume();
-		setupSearches();
-		   
 	}
+	protected void onStart() {
+		super.onStart();
+		setupSearches();
+	}
+	
+	
 
 	private void setupSearches() {
 		searches = new SearchesData(this);
