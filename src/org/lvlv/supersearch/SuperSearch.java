@@ -8,6 +8,7 @@ import static org.lvlv.supersearch.Constants.URL;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,10 +52,10 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		searches = new SearchesData(this);
 		try {
 			Cursor cursor = getSearches();
-			String[] from = new String[] { Constants.NAME };
-			int[] to = new int[] { R.id.search_location };
-	        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursor, from, to  );
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+			String[] from = new String[] { Constants.NAME, Constants.URL };
+			int[] to = new int[] { R.id.name, R.id.url };
+	        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.spinnerrow, cursor, from, to  );
+			adapter.setDropDownViewResource(R.layout.spinnerrow);
 	        location.setAdapter(adapter);
 		} finally {
 		   searches.close();
@@ -66,9 +67,10 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		
 	}
 	private void doSearch() {
-//		Uri uri = Uri.parse(location.getText().toString().replaceAll("%s", inputText.getText().toString()));
-//		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//		startActivity(intent);
+		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
+		Uri uri = Uri.parse(selection.getString(2).replaceAll("%s", inputText.getText().toString()));
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
 		
 	}
 	
