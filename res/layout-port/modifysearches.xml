@@ -26,29 +26,23 @@
     android:layout_height="wrap_content" 
     android:id="@+id/term_input"
     android:hint="@string/term_hint"
-    />
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
->        
+    />    
 <Button  
-    android:layout_width="wrap_content" 
-    android:layout_height="wrap_content" 
-    android:text="@string/add_search_label"
-    android:id="@+id/add_search_button"
-    />
-<Button  
-    android:layout_width="wrap_content" 
+    android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/save_search_label"
     android:id="@+id/save_search_button"
     />
 <Button  
-    android:layout_width="wrap_content" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/add_search_label"
+    android:id="@+id/add_search_button"
+    />
+<Button  
+    android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/delete_search_label"
     android:id="@+id/delete_search_button"
     />
-</LinearLayout>
 </LinearLayout>

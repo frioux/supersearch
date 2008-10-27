@@ -96,6 +96,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 	   startManagingCursor(cursor);
 	   return cursor;
 	}
+	
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.go_button: 
