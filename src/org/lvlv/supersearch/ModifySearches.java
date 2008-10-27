@@ -73,6 +73,7 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 	protected void onStart() {
 		super.onStart();
 		setupSearches();
+		populateFields();
 	}
 	
 	private static String[] FROM = { _ID, NAME, URL, TERM};
@@ -138,9 +139,18 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 
 	public void onItemSelected(AdapterView<?> adapterView, View view, int arg2,
 			long arg3) {
+		populateFields();
 
 	}
 
+	private void populateFields() {
+		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
+		name_text.setText(selection.getString(1));
+		url_text.setText(selection.getString(2));
+		term_text.setText(selection.getString(3));
+			
+	}
+	
 	public void onNothingSelected(AdapterView<?> arg0) {
 		// TODO Auto-generated method stub
 		
