@@ -96,24 +96,27 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 	}
 	
 	public void onClick(View v) {
+		SQLiteCursor selection;
 		switch (v.getId()) {
 		
 		case R.id.add_search_button:
 			addSearch();
 			break;
 		case R.id.delete_search_button:
-			SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
-			   SQLiteDatabase db = searches.getWritableDatabase();
-			   db.delete(
-					   TABLE_NAME, 
-					   "_ID = ?", 
-					   new String[] {String.valueOf(selection.getInt(0))}
-			   );
+			selection =  (SQLiteCursor) location.getSelectedItem();
+			searches.deleteSearch(selection.getInt(0));
 			break;
 		case R.id.save_search_button:
+			selection =  (SQLiteCursor) location.getSelectedItem();
+			searches.updateSearch(
+					selection.getInt(0), 
+					name_text.getText().toString(),
+					url_text.getText().toString(), 
+					term_text.getText().toString()
+			);
 			break;
-			
 		}
+		setupSearches();
 	}
 
 
@@ -133,10 +136,9 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 		return false;
 	}
 
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+	public void onItemSelected(AdapterView<?> adapterView, View view, int arg2,
 			long arg3) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {

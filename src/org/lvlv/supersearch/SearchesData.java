@@ -50,6 +50,29 @@ public class SearchesData extends SQLiteOpenHelper {
 		db.insertOrThrow(TABLE_NAME, null, values);
 	}
 	
+	public void deleteSearch(int id) {
+		   SQLiteDatabase db = this.getWritableDatabase();
+		   db.delete(
+				   TABLE_NAME, 
+				   "_ID = ?", 
+				   new String[] {String.valueOf(id)}
+		   );
+	}
+	
+	public void updateSearch(int id, String name, String url, String term) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(NAME, name);
+		values.put(URL, url);
+		values.put(TERM, term);
+		db.update(
+				TABLE_NAME, 
+				values, 
+				"_ID = ?", 
+				new String[] {String.valueOf(id)}
+		);
+	}
+	
 	
 
 }
