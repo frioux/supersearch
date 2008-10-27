@@ -7,19 +7,24 @@ import static org.lvlv.supersearch.Constants.TERM;
 import static org.lvlv.supersearch.Constants.URL;
 import android.app.Activity;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
-public class ModifySearches extends Activity implements OnClickListener,OnKeyListener{
+public class ModifySearches extends Activity implements OnClickListener,OnKeyListener, OnItemSelectedListener{
 	private Button add_search_button;
+	private Button save_search_button;
+	private Button delete_search_button;
 	private EditText name_text;
 	private EditText url_text;
 	private EditText term_text;
@@ -34,15 +39,20 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 		
 		searches = new SearchesData(this);
 		add_search_button = (Button) findViewById(R.id.add_search_button);
+		save_search_button = (Button) findViewById(R.id.save_search_button);
+		delete_search_button = (Button) findViewById(R.id.delete_search_button);
 		name_text = (EditText) findViewById(R.id.name_input);
 		url_text = (EditText) findViewById(R.id.location_input);
 		term_text = (EditText) findViewById(R.id.term_input);
 		location = (Spinner) findViewById(R.id.location);
 		
 		add_search_button.setOnClickListener(this);
+		save_search_button.setOnClickListener(this);
+		delete_search_button.setOnClickListener(this);
 		name_text.setOnKeyListener(this);
 		url_text.setOnKeyListener(this);
 		term_text.setOnKeyListener(this);
+		location.setOnItemSelectedListener(this);
 		
 	}
 
@@ -68,8 +78,6 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 	private static String[] FROM = { _ID, NAME, URL, TERM};
 	private static String ORDER_BY = NAME + " ASC" ;
 	public Cursor getSearches() {
-	   // Perform a managed query. The Activity will handle closing
-	   // and re-querying the cursor when needed.
 	   SQLiteDatabase db = searches.getReadableDatabase();
 	   Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
 	         null, ORDER_BY);
@@ -88,7 +96,24 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 	}
 	
 	public void onClick(View v) {
-		addSearch();
+		switch (v.getId()) {
+		
+		case R.id.add_search_button:
+			addSearch();
+			break;
+		case R.id.delete_search_button:
+			SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
+			   SQLiteDatabase db = searches.getWritableDatabase();
+			   db.delete(
+					   TABLE_NAME, 
+					   "_ID = ?", 
+					   new String[] {String.valueOf(selection.getInt(0))}
+			   );
+			break;
+		case R.id.save_search_button:
+			break;
+			
+		}
 	}
 
 
@@ -106,6 +131,17 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 			}
 		}
 		return false;
+	}
+
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
