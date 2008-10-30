@@ -5,6 +5,10 @@ import static org.lvlv.supersearch.Constants.NAME;
 import static org.lvlv.supersearch.Constants.TABLE_NAME;
 import static org.lvlv.supersearch.Constants.TERM;
 import static org.lvlv.supersearch.Constants.URL;
+
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,6 +30,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 {
 	private Button goButton;
 	private Button manageButton;
+	private Button aboutButton;
 	private Spinner location;
 	private EditText inputText;
 	private SearchesData searches;
@@ -38,6 +43,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		
 		goButton = (Button) findViewById(R.id.go_button);
 		manageButton = (Button) findViewById(R.id.manage_button);
+		aboutButton = (Button) findViewById(R.id.about_button);
 		location = (Spinner) findViewById(R.id.search_location);
 		inputText = (EditText) findViewById(R.id.search_input);
 			
@@ -45,6 +51,11 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		manageButton.setOnClickListener(this);
 		location.setOnKeyListener(this);
 		inputText.setOnKeyListener(this);
+		
+		searches = new SearchesData(this);
+		if (!isFirstRun()) {
+			firstRunSetup();
+		}
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
@@ -61,11 +72,8 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		super.onStart();
 		setupSearches();
 	}
-	
-	
 
 	private void setupSearches() {
-		searches = new SearchesData(this);
 		try {
 			Cursor cursor = getSearches();
 			String[] from = new String[] { Constants.NAME, Constants.URL };
@@ -85,11 +93,29 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		startActivity(intent);	
 	}
 	
+	private void firstRunSetup() {
+		File firstRun = new File("org.lvlv.supersearch.firstrun");
+		searches.addSearch("Answers.com", "http://answers.com/%s", "Search");
+		searches.addSearch("Google", "http://google.com/search?q=%s", "Search");
+		searches.addSearch("Wikipedia", "http://en.wikipedia.org/wiki/Special:Search?search=%s", "Search");
+		searches.addSearch("Merriam-Webster", "http://www.merriam-webster.com/dictionary/%s", "Define");
+		try {
+		firstRun.createNewFile();
+		} catch (IOException ioe) {
+		  Log.e("STATION", "Could not create first run file!");
+		}
+		
+	}
+
+	private boolean isFirstRun() {
+		File firstRun = new File("org.lvlv.supersearch.firstrun");
+		return firstRun.exists();
+	}
+
+	
 	private static String[] FROM = { _ID, NAME, URL, TERM};
 	private static String ORDER_BY = NAME + " ASC" ;
-	public Cursor getSearches() {
-	   // Perform a managed query. The Activity will handle closing
-	   // and re-querying the cursor when needed.
+	private Cursor getSearches() {
 	   SQLiteDatabase db = searches.getReadableDatabase();
 	   Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null,
 	         null, ORDER_BY);
@@ -105,6 +131,9 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		case R.id.manage_button:
 			Intent i = new Intent(this, ModifySearches.class);
 			startActivity(i);
+			break;
+		case R.id.about_button:
+			
 			break;
 		}
 	}
