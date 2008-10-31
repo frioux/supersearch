@@ -145,9 +145,11 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 
 	private void populateFields() {
 		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
-		name_text.setText(selection.getString(1));
-		url_text.setText(selection.getString(2));
-		term_text.setText(selection.getString(3));
+		if (selection != null) {
+			name_text.setText(selection.getString(1));
+			url_text.setText(selection.getString(2));
+			term_text.setText(selection.getString(3));
+		}
 			
 	}
 	

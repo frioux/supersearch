@@ -1,16 +1,14 @@
 package org.lvlv.supersearch;
 
 import static android.provider.BaseColumns._ID;
-import static org.lvlv.supersearch.Constants.NAME;
-import static org.lvlv.supersearch.Constants.TABLE_NAME;
-import static org.lvlv.supersearch.Constants.TERM;
-import static org.lvlv.supersearch.Constants.URL;
+import static org.lvlv.supersearch.Constants.*;
 
 import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -43,7 +41,6 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		
 		goButton = (Button) findViewById(R.id.go_button);
 		manageButton = (Button) findViewById(R.id.manage_button);
-		aboutButton = (Button) findViewById(R.id.about_button);
 		location = (Spinner) findViewById(R.id.search_location);
 		inputText = (EditText) findViewById(R.id.search_input);
 			
@@ -94,22 +91,19 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 	}
 	
 	private void firstRunSetup() {
-		File firstRun = new File("org.lvlv.supersearch.firstrun");
 		searches.addSearch("Answers.com", "http://answers.com/%s", "Search");
 		searches.addSearch("Google", "http://google.com/search?q=%s", "Search");
 		searches.addSearch("Wikipedia", "http://en.wikipedia.org/wiki/Special:Search?search=%s", "Search");
 		searches.addSearch("Merriam-Webster", "http://www.merriam-webster.com/dictionary/%s", "Define");
-		try {
-		firstRun.createNewFile();
-		} catch (IOException ioe) {
-		  Log.e("STATION", "Could not create first run file!");
-		}
-		
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean(FIRST_RUN, false);
+		editor.commit();
 	}
 
 	private boolean isFirstRun() {
-		File firstRun = new File("org.lvlv.supersearch.firstrun");
-		return firstRun.exists();
+		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
+		return preferences.getBoolean(FIRST_RUN, true);
 	}
 
 	
@@ -131,9 +125,6 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		case R.id.manage_button:
 			Intent i = new Intent(this, ModifySearches.class);
 			startActivity(i);
-			break;
-		case R.id.about_button:
-			
 			break;
 		}
 	}
