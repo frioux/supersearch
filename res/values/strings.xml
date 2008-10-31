@@ -11,4 +11,7 @@
     <string name="delete_search_label">Delete Search</string>
     <string name="save_search_label">Update Search</string>
     <string name="manage_label">Manage Searches</string>
+    <string name="about_title">About SuperSearch</string>
+    <string name="about_label">About SuperSearch</string>
+    <string name="about_text">SuperSearch is a tool to extend the capabilities of your Android phone.  It is licensed under the GPLv3 which means that you can basically do whatever you want with this program.  For more details, see http://www.gnu.org/copyleft/gpl.html.  For the source to this program see http://github.com/frioux/supersearch/tree.</string>
 </resources>
