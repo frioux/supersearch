@@ -19,12 +19,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
-public class SuperSearch extends Activity implements OnClickListener,OnKeyListener
+public class SuperSearch extends Activity implements OnClickListener,OnKeyListener, OnItemSelectedListener
 {
 	private Button goButton;
 	private Button manageButton;
@@ -43,16 +45,20 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		manageButton = (Button) findViewById(R.id.manage_button);
 		location = (Spinner) findViewById(R.id.search_location);
 		inputText = (EditText) findViewById(R.id.search_input);
-			
+		
 		goButton.setOnClickListener(this);
 		manageButton.setOnClickListener(this);
 		location.setOnKeyListener(this);
 		inputText.setOnKeyListener(this);
+		location.setOnItemSelectedListener(this);
+
 		
 		searches = new SearchesData(this);
 		if (!isFirstRun()) {
 			firstRunSetup();
 		}
+		
+		populateFields();
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
@@ -83,11 +89,29 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		}
 	}
 	
+	public void onItemSelected(AdapterView<?> adapterView, View view, int arg2,
+			long arg3) {
+		populateFields();
+
+	}
+
+	private void populateFields() {
+		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
+		if (selection != null) {
+			goButton.setText(selection.getString(3));
+		}
+			
+	}
+
+	
 	private void doSearch() {
 		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
-		Uri uri = Uri.parse(selection.getString(2).replaceAll("%s", inputText.getText().toString()));
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);	
+		if (selection != null) {
+			Uri uri = Uri.parse(selection.getString(2).replaceAll("%s",
+					inputText.getText().toString()));
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
+		}
 	}
 	
 	private void firstRunSetup() {
@@ -135,5 +159,10 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 			return true;
 		}
 		return false;
+	}
+
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

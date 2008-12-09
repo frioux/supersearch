@@ -105,17 +105,18 @@ public class ModifySearches extends Activity implements OnClickListener,OnKeyLis
 			break;
 		case R.id.delete_search_button:
 			selection =  (SQLiteCursor) location.getSelectedItem();
-			searches.deleteSearch(selection.getInt(0));
+			if (selection != null) {
+				searches.deleteSearch(selection.getInt(0));
+			}
 			break;
 		case R.id.save_search_button:
 			selection =  (SQLiteCursor) location.getSelectedItem();
-			searches.updateSearch(
-					selection.getInt(0), 
-					name_text.getText().toString(),
-					url_text.getText().toString(), 
-					term_text.getText().toString()
-			);
-			break;
+			if (selection != null) {
+				searches.updateSearch(selection.getInt(0), name_text.getText()
+						.toString(), url_text.getText().toString(), term_text
+						.getText().toString());
+				break;
+			}
 		}
 		setupSearches();
 	}
