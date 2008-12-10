@@ -13,5 +13,8 @@
         </activity>
         <activity android:name=".ModifySearches" android:label="@string/modify_title">
         </activity>
+		<activity android:name=".WizardActivity" android:configChanges="keyboardHidden|orientation" />
+		<activity android:name=".HelpActivity" android:configChanges="keyboardHidden|orientation" />
+		<activity android:name=".HelpTopicActivity" android:configChanges="keyboardHidden|orientation" />
     </application>
-</manifest> 
+</manifest>

@@ -1,14 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SuperSearch</string>
-    <string name="go_label">Go!</string>
+    <string name="app_desc">TODO</string>
+
+
     <string name="modify_title">SuperSearch: Manage Searches</string>
+
     <string name="search_hint">Search Text</string>
     <string name="name_hint">Search Name</string>
     <string name="location_hint">Search URL</string>
     <string name="term_hint">Term</string>
+
+    <string name="go_label">Go!</string>
     <string name="add_search_label">Add New Search</string>
     <string name="delete_search_label">Delete Search</string>
     <string name="save_search_label">Update Search</string>
     <string name="manage_label">Manage Searches</string>
+    <string name="title_help">Help</string>
+
+
+    <string name="msg_copyright">Copyright &#169; 2008 Arthur Axel "fREW" Schmidt http://blog.afoolishmanifesto.com</string>
+
+    <string name="wizard_agree">Agree</string>
+    <string name="wizard_cancel">Cancel</string>
+    <string name="wizard_next">Next</string>
+    <string name="wizard_back">Back</string>
+
+    <string name="help_intro">Please select a topic below for more information on a particular subject.</string>
+
+    <string name="msg_version">SuperSearch (working copy)</string>
 </resources>
