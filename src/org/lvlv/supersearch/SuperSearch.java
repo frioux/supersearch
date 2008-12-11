@@ -50,8 +50,8 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		
 		searches = new SearchesData(this);
 		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
-		if (!!preferences.getBoolean(FIRST_RUN, true)) {
-			firstRunSetup();
+		if (true){ //!preferences.getBoolean(FIRST_RUN, true)) {
+			this.startActivityForResult(new Intent(this, WizardActivity.class),	REQUEST_EULA);
 		}
 		
 		populateFields();
@@ -129,11 +129,6 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		}
 	}
 	public final static int REQUEST_EULA = 1;
-	
-	private void firstRunSetup() {
-		this.startActivityForResult(new Intent(this, WizardActivity.class),	REQUEST_EULA);
-		
-	}
 	
 	private static String[] FROM = { _ID, NAME, URL, TERM};
 	private static String ORDER_BY = NAME + " ASC" ;
