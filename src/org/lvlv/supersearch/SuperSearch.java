@@ -6,6 +6,7 @@ import static org.lvlv.supersearch.Constants.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 	private Spinner location;
 	private EditText inputText;
 	private SearchesData searches;
+	private SharedPreferences settings; 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,8 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 
 		
 		searches = new SearchesData(this);
-		if (!isFirstRun()) {
+		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
+		if (!!preferences.getBoolean(FIRST_RUN, true)) {
 			firstRunSetup();
 		}
 		
@@ -125,23 +128,12 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 			startActivity(intent);
 		}
 	}
+	public final static int REQUEST_EULA = 1;
 	
 	private void firstRunSetup() {
-		searches.addSearch("Answers.com", "http://answers.com/%s", "Search");
-		searches.addSearch("Google", "http://google.com/search?q=%s", "Search");
-		searches.addSearch("Wikipedia", "http://en.wikipedia.org/wiki/Special:Search?search=%s", "Search");
-		searches.addSearch("Merriam-Webster", "http://www.merriam-webster.com/dictionary/%s", "Define");
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean(FIRST_RUN, false);
-		editor.commit();
+		this.startActivityForResult(new Intent(this, WizardActivity.class),	REQUEST_EULA);
+		
 	}
-
-	private boolean isFirstRun() {
-		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
-		return preferences.getBoolean(FIRST_RUN, true);
-	}
-
 	
 	private static String[] FROM = { _ID, NAME, URL, TERM};
 	private static String ORDER_BY = NAME + " ASC" ;
@@ -170,4 +162,30 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		switch(requestCode) {
+		case REQUEST_EULA:
+			if(resultCode == Activity.RESULT_OK) {
+				// yay they agreed, so store that info
+				searches.addSearch("Answers.com", "http://answers.com/%s", "Search");
+				searches.addSearch("Google", "http://google.com/search?q=%s", "Search");
+				searches.addSearch("Wikipedia", "http://en.wikipedia.org/wiki/Special:Search?search=%s", "Search");
+				searches.addSearch("Merriam-Webster", "http://www.merriam-webster.com/dictionary/%s", "Define");
+				settings = getSharedPreferences(PREFS_NAME, 0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putBoolean(FIRST_RUN, false);
+				editor.commit();
+			} else {
+				// user didnt agree, so close
+				this.finish();
+			}
+			break;
+				
+		}
+		
+	}
+
 }
