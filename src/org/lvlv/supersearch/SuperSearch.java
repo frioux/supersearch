@@ -123,7 +123,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
 		if (selection != null) {
 			Uri uri = Uri.parse(selection.getString(2).replaceAll("%s",
-					inputText.getText().toString()));
+					Uri.encode(inputText.getText().toString())));
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
 		}
