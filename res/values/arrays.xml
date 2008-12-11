@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
    <string-array name="list_wizard_topics">
-      <item>Hints</item>
-      <item>Keyboard</item>
+      <item>Basic Usage</item>
+      <item>Search Management</item>
    </string-array>
 </resources>
