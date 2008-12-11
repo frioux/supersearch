@@ -35,13 +35,11 @@ public class SearchesData extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 	
-	public void prepopulate() {
-		addSearch("Answers.com", "http://answers.com/%s", "Search");
-		addSearch("Google", "http://www.google.com/#/search?q=%s", "Search");
-		addSearch("Merriam-Webster", "http://www.merriam-webster.com/dictionary/%s", "Word");
-	}
-	
 	public void addSearch(String name, String url, String term) {
+		// I guess Java  doesn't have defaults
+		if (term.equals("")) {
+			term = "Search";
+		}
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(NAME, name);

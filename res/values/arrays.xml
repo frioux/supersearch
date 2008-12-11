@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+   <string-array name="list_initial_url">
+      <item>http://mobile.answers.com/%s</item>
+      <item>http://www.google.com/search?q=%s</item>
+      <item>http://wapedia.mobi/en/Special:Search?search=%s&amp;skl=Go</item>
+      <item>http://www.merriam-webster.com/dictionary/%s</item>
+      <item>http://www.imdb.com/find?s=all&amp;q=%s</item>
+      <item>http://www.rottentomatoes.com/search/movie.php?search=%s&amp;searchby=by+title</item>
+   </string-array>
+   <string-array name="list_initial_name">
+      <item>Answers.com</item>
+	  <item>Google</item>
+      <item>Wapedia</item>
+      <item>Merriam-Webster</item>
+      <item>IMDB</item>
+      <item>Rotten Tomatoes</item>
+   </string-array>
+   <string-array name="list_initial_term">
+      <item />
+      <item />
+      <item />
+      <item>Define</item>
+      <item />
+      <item />
+   </string-array>
    <string-array name="list_wizard_topics">
       <item>Basic Usage</item>
       <item>Search Management</item>

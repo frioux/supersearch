@@ -153,10 +153,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		return false;
 	}
 
-	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onNothingSelected(AdapterView<?> arg0) {}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,10 +162,14 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		case REQUEST_EULA:
 			if(resultCode == Activity.RESULT_OK) {
 				// yay they agreed, so store that info
-				searches.addSearch("Answers.com", "http://answers.com/%s", "Search");
-				searches.addSearch("Google", "http://google.com/search?q=%s", "Search");
-				searches.addSearch("Wikipedia", "http://en.wikipedia.org/wiki/Special:Search?search=%s", "Search");
-				searches.addSearch("Merriam-Webster", "http://www.merriam-webster.com/dictionary/%s", "Define");
+				String[] url = getResources().getStringArray(R.array.list_initial_url);
+				String[] name = getResources().getStringArray(R.array.list_initial_name);
+				String[] term = getResources().getStringArray(R.array.list_initial_term);
+				
+				
+				for (int i = 0; i < url.length; i++) {
+					searches.addSearch(name[i], url[i], term[i]);
+				}
 				settings = getSharedPreferences(PREFS_NAME, 0);
 				SharedPreferences.Editor editor = settings.edit();
 				editor.putBoolean(FIRST_RUN, false);
