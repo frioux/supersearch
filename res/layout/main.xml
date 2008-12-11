@@ -21,10 +21,4 @@
     android:text="@string/go_label"
     android:id="@+id/go_button"
     />
-<Button  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/manage_label"
-    android:id="@+id/manage_button"
-    />
 </LinearLayout>

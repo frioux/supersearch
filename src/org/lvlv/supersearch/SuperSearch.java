@@ -3,9 +3,6 @@ package org.lvlv.supersearch;
 import static android.provider.BaseColumns._ID;
 import static org.lvlv.supersearch.Constants.*;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,8 +11,9 @@ import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -29,25 +27,20 @@ import android.widget.AdapterView.OnItemSelectedListener;
 public class SuperSearch extends Activity implements OnClickListener,OnKeyListener, OnItemSelectedListener
 {
 	private Button goButton;
-	private Button manageButton;
-	private Button aboutButton;
 	private Spinner location;
 	private EditText inputText;
 	private SearchesData searches;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
 		goButton = (Button) findViewById(R.id.go_button);
-		manageButton = (Button) findViewById(R.id.manage_button);
 		location = (Spinner) findViewById(R.id.search_location);
 		inputText = (EditText) findViewById(R.id.search_input);
 		
 		goButton.setOnClickListener(this);
-		manageButton.setOnClickListener(this);
 		location.setOnKeyListener(this);
 		inputText.setOnKeyListener(this);
 		location.setOnItemSelectedListener(this);
@@ -60,17 +53,20 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		
 		populateFields();
 	}
-	
+	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 	   super.onSaveInstanceState(outState);
 	}
+	@Override
 	protected void onRestoreInstanceState(Bundle inState) {
 		super.onRestoreInstanceState(inState);
 	}
-
+	
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}
+	@Override
 	protected void onStart() {
 		super.onStart();
 		setupSearches();
@@ -89,6 +85,22 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		}
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+
+		MenuItem help = menu.add(R.string.list_menu_help);
+		help.setIcon(android.R.drawable.ic_menu_help);
+		help.setIntent(new Intent(SuperSearch.this, HelpActivity.class));
+		
+		MenuItem settings = menu.add(R.string.manage_label);
+		settings.setIcon(android.R.drawable.ic_menu_preferences);
+		settings.setIntent(new Intent(SuperSearch.this, ModifySearches.class));
+		
+		return true;
+		
+	}
+
 	public void onItemSelected(AdapterView<?> adapterView, View view, int arg2,
 			long arg3) {
 		populateFields();
@@ -140,17 +152,10 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 	   startManagingCursor(cursor);
 	   return cursor;
 	}
+
 	
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.go_button: 
 			doSearch();
-			break;
-		case R.id.manage_button:
-			Intent i = new Intent(this, ModifySearches.class);
-			startActivity(i);
-			break;
-		}
 	}
 
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
