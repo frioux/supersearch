@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 public interface Constants extends BaseColumns {
 	public static final String PREFS_NAME = "SuperSearch";
 	public static final String FIRST_RUN = "firstrun";
+	public static final String DEFAULT_SEARCH = "defsearch";
 	
 	public static final String TABLE_NAME = "searches";
 	

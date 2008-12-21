@@ -6,7 +6,6 @@ import static org.lvlv.supersearch.Constants.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,7 +49,7 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		
 		searches = new SearchesData(this);
 		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
-		if (true){ //!preferences.getBoolean(FIRST_RUN, true)) {
+		if (preferences.getBoolean(FIRST_RUN, true)) {
 			this.startActivityForResult(new Intent(this, WizardActivity.class),	REQUEST_EULA);
 		}
 		
@@ -68,6 +67,11 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
+		int default_selection = preferences.getInt(DEFAULT_SEARCH, -1);
+		if (default_selection != -1) {
+			location.setSelection(default_selection);
+		}
 	}
 	@Override
 	protected void onStart() {
@@ -115,11 +119,14 @@ public class SuperSearch extends Activity implements OnClickListener,OnKeyListen
 		if (selection != null) {
 			goButton.setText(selection.getString(3));
 		}
-			
 	}
 
 	
 	private void doSearch() {
+		settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt(DEFAULT_SEARCH, location.getSelectedItemPosition());
+		editor.commit();
 		SQLiteCursor selection =  (SQLiteCursor) location.getSelectedItem();
 		if (selection != null) {
 			Uri uri = Uri.parse(selection.getString(2).replaceAll("%s",
