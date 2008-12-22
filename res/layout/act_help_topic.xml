@@ -23,7 +23,7 @@
 	android:layout_height="fill_parent"
 	>
 
-	<org.connectbot.util.HelpTopicView
+	<org.lvlv.supersearch.util.HelpTopicView
 		android:id="@+id/topic_text"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
